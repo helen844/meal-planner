@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#24493b"/>
+  <!-- steam -->
+  <g fill="none" stroke="#f3e2b8" stroke-width="18" stroke-linecap="round">
+    <path d="M196 112c-18 22 18 38 0 62"/>
+    <path d="M256 96c-18 22 18 42 0 70"/>
+    <path d="M316 112c-18 22 18 38 0 62"/>
+  </g>
+  <!-- bowl -->
+  <path d="M104 236h304c0 92-68 160-152 160S104 328 104 236z" fill="#f3e2b8"/>
+  <rect x="92" y="220" width="328" height="28" rx="14" fill="#f3e2b8"/>
+  <rect x="196" y="398" width="120" height="22" rx="11" fill="#f3e2b8"/>
+  <!-- leaf -->
+  <path d="M256 300c30-36 74-40 92-36-6 30-38 60-92 52" fill="#7cc3a4"/>
+  <path d="M256 300c-30-36-74-40-92-36 6 30 38 60 92 52" fill="#9fd6bc"/>
+</svg>
