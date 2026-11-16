@@ -1,6 +1,6 @@
 // Meal Planner — Google Drive sync
 // Paste this into a new Apps Script project (script.google.com), change TOKEN,
-// then Deploy > New deployment > Web app, Execute as: Me, Who has access: Anyone.
+// run setup once (to allow Drive access), then Deploy > New deployment > Web app, Execute as: Me, Who has access: Anyone.
 // Copy the web app link and the token into the app's Settings.
 
 const TOKEN = 'change-this-to-your-own-phrase';
@@ -16,9 +16,17 @@ function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
+// Run this once from the editor (select "setup" > Run) to give the script
+// access to your Drive and create the data file. Then deploy as a web app.
+function setup() {
+  const f = getFile_();
+  Logger.log('Ready: ' + f.getName() + ' in your Drive (' + f.getUrl() + ')');
+}
+
 // The app reads your saved data (and the Test button checks the connection).
 function doGet(e) {
-  if ((e.parameter.token || '') !== TOKEN) return out_({ ok: false, message: 'Wrong token' });
+  const params = (e && e.parameter) || {};
+  if ((params.token || '') !== TOKEN) return out_({ ok: false, message: 'Wrong token' });
   let data = {};
   try { data = JSON.parse(getFile_().getBlob().getDataAsString() || '{}'); } catch (err) { data = {}; }
   return out_({ ok: true, message: 'Connected to ' + FILE_NAME + ' in your Drive', data: data });
@@ -27,7 +35,7 @@ function doGet(e) {
 // The app saves everything (recipes, plans, settings) as one file.
 function doPost(e) {
   let body;
-  try { body = JSON.parse(e.postData.contents); } catch (err) { return out_({ ok: false, error: 'Bad request' }); }
+  try { body = JSON.parse(e && e.postData ? e.postData.contents : ''); } catch (err) { return out_({ ok: false, error: 'Bad request' }); }
   if (body.token !== TOKEN) return out_({ ok: false, error: 'Wrong token' });
   if (!body.data || typeof body.data !== 'object') return out_({ ok: false, error: 'No data' });
   const lock = LockService.getScriptLock();
